@@ -48,7 +48,8 @@ else
   end
 end
 
-gem_package "passenger" do
+rvm_gem "passenger" do
+  ruby_string "#{node[:passenger][:rvm_ruby_version]}@#{node[:passenger][:rvm_gemset]}"
   version node[:passenger][:version]
 end
 
@@ -56,7 +57,7 @@ script "passenger_module" do
   interpreter "bash"
   user "root"
   code <<-EOH
-  source #{[:passenger][:rvm_path]}/scripts/rvm
+  source #{node[:passenger][:rvm_path]}/scripts/rvm
   rvm use #{node[:passenger][:rvm_ruby_version]}@#{node[:passenger][:rvm_gemset]}
   rvmsudo passenger-install-apache2-module --auto
   EOH

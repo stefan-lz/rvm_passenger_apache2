@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: passenger_apache2
+# Cookbook Name:: rvm_passenger_apache2
 # Recipe:: mod_rails
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
@@ -22,11 +22,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "passenger_apache2"
+include_recipe "rvm_passenger_apache2"
 
 if platform?("ubuntu","debian")
   template "#{node[:apache][:dir]}/mods-available/passenger.load" do
-    cookbook "passenger_apache2"
+    cookbook "rvm_passenger_apache2"
     source "passenger.load.erb"
     owner "root"
     group "root"
@@ -35,7 +35,7 @@ if platform?("ubuntu","debian")
 end
 
 template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
-  cookbook "passenger_apache2"
+  cookbook "rvm_passenger_apache2"
   source "passenger.conf.erb"
   owner "root"
   group "root"
