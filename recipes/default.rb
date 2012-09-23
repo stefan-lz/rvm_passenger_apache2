@@ -1,14 +1,16 @@
 #
-# Cookbook Name:: passenger_apache2
+# Cookbook Name:: rvm_passenger_apache2
 # Recipe:: default
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
 # Author:: Michael Hale (<mikehale@gmail.com>)
+# Author:: Stefan Leszkiewicz (<sleszk@gmail.com>)
 #
 # Copyright:: 2009, Opscode, Inc
 # Copyright:: 2009, 37signals
 # Coprighty:: 2009, Michael Hale
+# 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,6 +26,7 @@
 
 include_recipe "apache2"
 include_recipe "build-essential"
+include_recipe "rvm"
 
 case node[:platform]
 when "arch"
@@ -49,7 +52,13 @@ gem_package "passenger" do
   version node[:passenger][:version]
 end
 
-execute "passenger_module" do
-  command 'passenger-install-apache2-module --auto'
+script "passenger_module" do
+  interpreter "bash"
+  user "root"
+  code <<-EOH
+  source #{[:passenger][:rvm_path]}/scripts/rvm
+  rvm use #{node[:passenger][:rvm_ruby_version]}@#{node[:passenger][:rvm_gemset]}
+  rvmsudo passenger-install-apache2-module --auto
+  EOH
   creates node[:passenger][:module_path]
 end

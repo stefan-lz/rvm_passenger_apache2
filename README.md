@@ -1,7 +1,7 @@
 Description
 ====
 
-Installs passenger for Apache 2.
+Installs passenger using rvm, for Apache 2.
 
 Requirements
 ====
@@ -12,13 +12,18 @@ Tested on Ubuntu 10.04. Should work on any Ubuntu/Debian platforms.
 
 ## Cookbooks
 
-Opscode cookbooks:
+cookbooks:
 
-* apache2
-* build-essential
+* apache2 (opscode)
+* build-essential (opscode)
+* rvm (https://github.com/fnichol/chef-rvm)
 
-Attributes 
+Attributes
 ====
+
+* `passenger[:rvm_path]` - where is rvm installed (could use $rvm_path instead?)
+* `passenger[:rvm_ruby_version]` - rvm ruby version ie. "1.9.3-p194"
+* `passenger[:rvm_gemset]` - rvm gemset ie. "global"
 
 * `passenger[:version]` - Specify the version of passenger to install.
 * `passenger[:max_pool_size]` - Sets PassengerMaxPoolSize in the Apache module config.
@@ -59,10 +64,12 @@ License and Author
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Joshua Sierles (<joshua@37signals.com>)
 Author:: Michael Hale (<mikehale@gmail.com>)
+Author:: Stefan Leszkiewicz (sleszk@gmail.com)
 
 Copyright:: 2009-2011, Opscode, Inc
 Copyright:: 2009, 37signals
 Coprighty:: 2009, Michael Hale
+Corpighty:: 2012, Stefan L.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
