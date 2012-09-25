@@ -53,13 +53,8 @@ rvm_gem "passenger" do
   version node[:passenger][:version]
 end
 
-script "passenger_module" do
-  interpreter "bash"
-  user "root"
-  code <<-EOH
-  source #{node[:passenger][:rvm_path]}/scripts/rvm
-  rvm use #{node[:passenger][:rvm_ruby_version]}@#{node[:passenger][:rvm_gemset]}
-  rvmsudo passenger-install-apache2-module --auto
-  EOH
+rvm_shell "passenger_module" do
+  ruby_string "#{node[:passenger][:rvm_ruby_version]}@#{node[:passenger][:rvm_gemset]}"
+  code        "passenger-install-apache2-module --auto"
   creates node[:passenger][:module_path]
 end
